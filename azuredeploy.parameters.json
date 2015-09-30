@@ -1,0 +1,17 @@
+{
+  "newStorageAccountName": {
+    "value": "newopenedxstorage"
+  },
+  "adminUsername": {
+    "value": "openedxuser"
+  },
+  "adminPassword": {
+    "value": "password1234$"
+  },
+  "dnsNameForPublicIP": {
+    "value": "open-edx-azure-dns"
+  },
+  "vmsize" : {
+    "value": "Standard_D2"
+  }
+}
