@@ -75,6 +75,17 @@ time sudo apt-get install -y build-essential software-properties-common python-s
 time sudo pip install --upgrade pip
 time sudo pip install --upgrade virtualenv
 
+###################################################
+# Pin specific version of Open edX (named-release/cypress for now)
+###################################################
+export OPENEDX_RELEASE='named-release/cypress'
+EXTRA_VARS="-e edx_platform_version=$OPENEDX_RELEASE \
+  -e certs_version=$OPENEDX_RELEASE \
+  -e forum_version=$OPENEDX_RELEASE \
+  -e xqueue_version=$OPENEDX_RELEASE \
+  -e configuration_version=appsembler/azureDeploy \
+  -e edx_ansible_source_repo=https://github.com/appsembler/configuration \
+"
 
 ###################################################
 # Download configuration repo and start ansible
@@ -89,7 +100,7 @@ cd playbooks
 
 curl https://raw.githubusercontent.com/tkeemon/openedx-azure-fullstack/master/server-vars.yml > /tmp/server-vars.yml
 
-sudo ansible-playbook -i localhost, -c local vagrant-fullstack.yml -e@/tmp/server-vars.yml
+sudo ansible-playbook -i localhost, -c local vagrant-fullstack.yml -e@/tmp/server-vars.yml $EXTRA_VARS
 
 date
 echo "Completed Open edX fullstack provision on pid $$"
