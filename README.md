@@ -28,6 +28,6 @@ After you have added your customizations, save your file, then run:
 A sample server-vars.yml file has been added to this repo to change the site's title to: "Open edX on Azure."
 
 # Customizing Open edX's design
-A method for changing the design of Open edX without forking the entire edx-platform repo has been developed by Stanford. You can read more about [configuring an Open edX theme](https://github.com/edx/edx-platform/wiki/Stanford-Theming) and can find the [edx-theme repo](). 
+A method for changing the design of Open edX without forking the entire edx-platform repo has been developed by Stanford. You can read more about [configuring an Open edX theme](https://github.com/edx/edx-platform/wiki/Stanford-Theming) and can find the [edx-theme repo](https://github.com/Stanford-Online/edx-theme). 
 
 For more info, check the [Open edX Github Wiki on managing fullstack](https://github.com/edx/configuration/wiki/edX-Managing-the-Full-Stack)
