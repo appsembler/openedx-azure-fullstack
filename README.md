@@ -10,19 +10,19 @@ You can learn more about Open edX and fullstack here:
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-This template will complete quickly, but the full Open edX install usually takes > 1 hour. To follow along with the progress, ssh into the VM and `tail -f openedx-fullstack-install.log`
+This template will complete quickly, but the full Open edX install usually takes > 1 hour. To follow along with the progress, ssh into the VM and `tail -f /var/log/azure/openedx-fullstack-install.log`
 
 # Getting started with Open edX fullstack
 After the install has successfully completed, Supervisor will automatically start LMS (the student facing site) on port 80 and Studio (the course authoing site) on port 18010. Both ports have already been made accessible, so you can simply visit them by opening a browser and navigating to:
- - LMS: http://<DNSNAMEFORPUBLICIP>.<RESOURCE_GROUP_LOCATION>.cloudapp.azure.com 
- - Studio: http://<DNSNAMEFORPUBLICIP>.<RESOURCE_GROUP_LOCATION>.cloudapp.azure.com:18010
+ - LMS: http://YOUR_INSTANCES_DNS_NAME.cloudapp.azure.com 
+ - Studio: http://YOUR_INSTANCES_DNS_NAME.cloudapp.azure.com:18010
 
 # Customizing Open edX fullstack
 Many Open edX features can be configured by creating and/or editing the file in `/edx/app/edx_ansible/server-vars.yml`. 
 
 After you have added your customizations, save your file, then run:
 ```
-/edx/bin/update edx-platform <YOUR_EDX_PLATFORMS_BRANCH_NAME>
+/edx/bin/update edx-platform YOUR_EDX_PLATFORMS_BRANCH_NAME
 ```
 
 A sample server-vars.yml file has been added to this repo to change the site's title to: "Open edX on Azure."

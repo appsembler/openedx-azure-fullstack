@@ -69,12 +69,7 @@
     "nsgName": "node-nsg",
     "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('nsgName'))]",
     "storageAccountType": "Standard_LRS",
-    "vhdBlobContainer": "vhds",
-    "nodesLbName": "nodeslb",
-    "nodesLbID": "[resourceId('Microsoft.Network/loadBalancers',variables('nodesLbName'))]",
-    "nodesLbIPConfigName": "NodesLBFrontEnd",
-    "nodesLbIPConfigID": "[concat(variables('nodesLbID'),'/frontendIPConfigurations/', variables('nodesLbIPConfigName'))]",
-    "nodesLbBackendPoolName": "node-pool"
+    "vhdBlobContainer": "vhds"
   },
   "resources": [
     {
@@ -190,7 +185,7 @@
       "name": "[concat(variables('vmName'), '-nic')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('nodesLbName'))]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
       ],
       "properties": {
@@ -198,63 +193,13 @@
           {
             "name": "ipConfigNode",
             "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(split(variables('subnetPrefix'),'0/24')[0], '100')]",
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+              },
               "subnet": {
                 "id": "[variables('subnetRef')]"
-              },
-              "loadBalancerBackendAddressPools": [
-                {
-                  "id": "[concat(variables('nodesLbID'), '/backendAddressPools/', variables('nodesLbBackendPoolName'))]"
-                }
-              ],
-              "loadBalancerInboundNatRules": [
-                {
-                  "id": "[concat(variables('nodesLbID'),'/inboundNatRules/SSH-',variables('vmName'))]"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "name": "[variables('nodesLbName')]",
-      "type": "Microsoft.Network/loadBalancers",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
-      ],
-      "properties": {
-        "frontendIPConfigurations": [
-          {
-            "name": "[variables('nodesLbIPConfigName')]",
-            "properties": {
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               }
-            }
-          }
-        ],
-        "backendAddressPools": [
-          {
-            "name": "[variables('nodesLbBackendPoolName')]"
-          }
-        ],
-        "probes": [],
-        "loadBalancingRules": [],
-        "inboundNatRules": [
-          {
-            "name": "[concat('SSH-',variables('vmName'))]",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[variables('nodesLbIPConfigID')]"
-              },
-              "protocol": "tcp",
-              "frontendPort": 22,
-              "backendPort": 22,
-              "enableFloatingIP": false
             }
           }
         ]
